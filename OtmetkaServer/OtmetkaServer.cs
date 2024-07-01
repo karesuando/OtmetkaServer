@@ -20,15 +20,19 @@ namespace OtmetkaServer
 {
     internal class OtmetkaServerApplication
     {
+        private static IPEndPoint GetLocalEndPoint()
+        {
+            using (Socket Socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+            {
+                Socket.Connect("8.8.8.8", 65530);
+                return Socket.LocalEndPoint as IPEndPoint;
+            }
+        }
+
         static void Main(string[] args)
         {
-            TcpListener Listener;
-            {
-                string HostName = Dns.GetHostName();
-                IPHostEntry HostInfo = Dns.GetHostEntry(HostName);
-                IPAddress LocalAddr = HostInfo.AddressList[1];
-                Listener = new TcpListener(LocalAddr, 4620);
-            }
+            IPEndPoint LocalEndPoint = GetLocalEndPoint();
+            TcpListener Listener = new TcpListener(LocalEndPoint.Address, 4620);
             Listener.Start();
             while (true)
             {
