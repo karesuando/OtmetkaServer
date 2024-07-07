@@ -25,14 +25,15 @@ namespace OtmetkaServer
             using (Socket Socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
             {
                 Socket.Connect("8.8.8.8", 65530);
-                return Socket.LocalEndPoint as IPEndPoint;
+                var EndPoint = Socket.LocalEndPoint as IPEndPoint;
+                return new IPEndPoint(EndPoint.Address, 4620);
             }
         }
 
         static void Main(string[] args)
         {
             IPEndPoint LocalEndPoint = GetLocalEndPoint();
-            TcpListener Listener = new TcpListener(LocalEndPoint.Address, 4620);
+            TcpListener Listener = new TcpListener(LocalEndPoint);
             Listener.Start();
             while (true)
             {
