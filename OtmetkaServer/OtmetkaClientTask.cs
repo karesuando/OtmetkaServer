@@ -20,7 +20,7 @@ namespace OtmetkaServer
         const int TIMEOUT = 150;
         const int BUFFERSIZE = 256000;
         const int SERVICE_SHUTDOWN = -1;
-        const string Path = @"C:\Users\Tom\Desktop\Temp\"; 
+        const string Path = @"C:\Users\tombo\OneDrive\Desktop\Temp\"; 
 
         private static readonly CancellationTokenSource OtmetkaCTS;
 

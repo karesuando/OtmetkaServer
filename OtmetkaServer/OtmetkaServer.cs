@@ -29,10 +29,25 @@ namespace OtmetkaServer
             }
         }
 
+        public static IPAddress GetLocalIPAddress()
+        {
+            string HostName = Dns.GetHostName();
+            IPHostEntry Host = Dns.GetHostEntry(HostName);
+            foreach (var IPAddress in Host.AddressList)
+            {
+                if (IPAddress.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return IPAddress;
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
+
         static void Main(string[] args)
         {
-            IPEndPoint LocalEndPoint = GetLocalEndPoint();
-            TcpListener Listener = new TcpListener(LocalEndPoint.Address, 4620);
+            IPAddress LocalAddress = GetLocalIPAddress();
+            Console.WriteLine(LocalAddress.ToString());
+            TcpListener Listener = new TcpListener(LocalAddress, 4620);
             Listener.Start();
             while (true)
             {
