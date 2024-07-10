@@ -119,13 +119,13 @@ namespace OtmetkaServer
         {
             int FileNo = 1;
             int Index = 0;
-            byte[] SizeBytes = new byte[sizeof(int)];
+            byte[] SizeBuffer = new byte[sizeof(int)];
 
             Buffer = GZipDecompress(Buffer, BufferSize);
             while (Index < Buffer.Length)
             {
-                System.Buffer.BlockCopy(Buffer, Index, SizeBytes, 0, sizeof(int));
-                int Size = BitConverter.ToInt32(SizeBytes, 0);
+                System.Buffer.BlockCopy(Buffer, Index, SizeBuffer, 0, sizeof(int));
+                int Size = BitConverter.ToInt32(SizeBuffer, 0);
                 byte[] Data = new byte[Size];
                 Index += sizeof(int);
                 System.Buffer.BlockCopy(Buffer, Index, Data, 0, Size);
